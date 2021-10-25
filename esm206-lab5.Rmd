@@ -2,29 +2,43 @@
 title: "lab5"
 author: "Margaret Hammond"
 date: "10/25/2021"
-output: html_document
+output: 
+  html_document: 
+    toc: yes
+    theme: united
+    code_folding: hide
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include = TRUE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(effsize)
 ```
 
-## R Markdown
+## Part 1: Confidence Intervals
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+In this section we'll use the `t.test()` function to calculate confidence intervals. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+### Example 1
 
-```{r cars}
-summary(cars)
+Create a single mock sample containing a number of values, then learn to use `t.test()` to return confidence intervals, and learn about in-line code referencing so our text becomes more reproducible, too.
+
+```{r}
+## Mock sample
+otter_lengths <- c(12, 3.9, 5, 80, 2, 57, 10, 9)
+
+# Find the confidence interval of the sample
+otter_ci <- t.test(otter_lengths)
+
+# Find the standard deviation
+otter_sd <- sd(otter_lengths)
 ```
 
-## Including Plots
+CI: if we took multiple samples of this population, we expect 95% of these samples to hold the true population mean.
 
-You can also embed plots, for example:
+Mean otter length is 22.363 inches $\pm$ 29.320 (mean $\pm$ sd, n = 8) with a 95% confidence interval of [-2.149, 46.874] inches.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+#### Now, using in-line referencing
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Mean otter length is `r round(otter_ci$estimate, 1)` inches. That in line code will update to any data changes. Woo!
+
